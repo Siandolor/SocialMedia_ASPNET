@@ -1,0 +1,77 @@
+@using SocialMedia.ViewModels
+@model LoginViewModel
+
+@{
+    // ----------------------------------------------------------
+    //  VIEW CONFIGURATION
+    //  Sets page title and retrieves optional return URL from
+    //  ViewBag (used for redirect after successful login).
+    // ----------------------------------------------------------
+    ViewData["Title"] = "Login";
+    string? returnUrl = ViewBag.ReturnUrl as string;
+}
+
+<h1>Login</h1>
+
+<!-- ==========================================================
+     LOGIN FORM
+     Posts credentials to AccountController.Login (POST).
+     Includes antiforgery token for CSRF protection.
+     ---------------------------------------------------------- -->
+<form asp-action="Login" method="post" asp-antiforgery="true">
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+    <!-- Validation summary (displays model state errors) -->
+    <div asp-validation-summary="All" class="validation-summary"></div>
+
+    <!-- ------------------------------------------------------
+         USERNAME OR EMAIL FIELD
+         Two-way binds to LoginViewModel.UserNameOrEmail.
+         Displays server-side validation errors automatically.
+         ------------------------------------------------------ -->
+    <div class="form-group">
+        <label asp-for="UserNameOrEmail">Username or Email</label>
+        <input asp-for="UserNameOrEmail" />
+        <span asp-validation-for="UserNameOrEmail" class="text-danger"></span>
+    </div>
+
+    <!-- ------------------------------------------------------
+         PASSWORD FIELD
+         Bound to LoginViewModel.Password.
+         Uses type="password" for masked input.
+         ------------------------------------------------------ -->
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <!-- ------------------------------------------------------
+         REMEMBER ME CHECKBOX
+         Persists authentication cookie if selected.
+         ------------------------------------------------------ -->
+    <div class="form-group">
+        <input asp-for="RememberMe" />
+        <label asp-for="RememberMe">Remember me?</label>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit">Login</button>
+</form>
+
+<!-- ----------------------------------------------------------
+     REGISTRATION LINK
+     Offers navigation to the Account/Register page.
+     ---------------------------------------------------------- -->
+<p>
+    Don’t have an account yet?
+    <a asp-controller="Account" asp-action="Register">Register</a>
+</p>
+
+<!-- ----------------------------------------------------------
+     CLIENT-SIDE VALIDATION
+     Loads jQuery validation scripts via partial view.
+     ---------------------------------------------------------- -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

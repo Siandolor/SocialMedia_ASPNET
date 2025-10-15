@@ -1,0 +1,70 @@
+@using SocialMedia.ViewModels
+@model IEnumerable<ChirpViewModel>
+
+@{
+    // ----------------------------------------------------------
+    //  VIEW CONFIGURATION
+    //  Retrieves user data and related statistics from ViewBag:
+    //  • ProfileUser   → ApplicationUser instance for the profile
+    //  • ChirpCount    → number of chirps created by the user
+    //  • LikesReceived → total likes received across all chirps
+    //  • LikesGiven    → total likes the user has given to others
+    // ----------------------------------------------------------
+    ViewData["Title"] = "Profile";
+    var user = ViewBag.ProfileUser as SocialMedia.Models.ApplicationUser;
+    int chirpCount = ViewBag.ChirpCount;
+    int likesReceived = ViewBag.LikesReceived;
+    int likesGiven = ViewBag.LikesGiven;
+}
+
+<!-- ==========================================================
+     PROFILE HEADER
+     Displays the user’s main account information and metrics.
+     ---------------------------------------------------------- -->
+<h1>Profile @user?.UserName</h1>
+
+<section class="profile-details">
+    <p><strong>Username:</strong> @user?.UserName</p>
+    <p><strong>Email:</strong> @user?.Email</p>
+    <p><strong>Description:</strong> @user?.Description</p>
+    <p><strong>Member since:</strong> @user?.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy")</p>
+    <p><strong>Total Chirps:</strong> @chirpCount</p>
+    <p><strong>Likes received:</strong> @likesReceived</p>
+    <p><strong>Likes given:</strong> @likesGiven</p>
+</section>
+
+<!-- ==========================================================
+     RECENT CHIRPS SECTION
+     Lists up to five of the user’s most recent chirps.
+     ---------------------------------------------------------- -->
+<h2>Recent Chirps</h2>
+
+@foreach (var chirp in Model)
+{
+    <article class="chirp">
+        <!-- Timestamp -->
+        <header>
+            <span class="timestamp">
+                @chirp.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+            </span>
+        </header>
+
+        <!-- Chirp content -->
+        <p class="content">@chirp.Content</p>
+
+        <!-- Associated Peeps -->
+        <div class="peeps">
+            @foreach (var peep in chirp.Peeps)
+            {
+                <a class="peep" asp-controller="Peeps" asp-action="Index" asp-route-name="@peep">
+                    @($"<" + peep)
+                </a>
+            }
+        </div>
+
+        <!-- Like counter -->
+        <div class="likes">
+            <span>@chirp.LikeCount Likes</span>
+        </div>
+    </article>
+}

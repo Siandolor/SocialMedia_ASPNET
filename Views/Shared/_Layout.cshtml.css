@@ -1,0 +1,104 @@
+﻿/* ==========================================================
+   _LAYOUT.CSHTML.CSS
+   Layout-specific stylesheet for the SocialMedia (Tweeble) app.
+
+   Purpose:
+   - Provides structural and visual styling for shared layout
+     components defined in _Layout.cshtml.
+   - Adjusts navigation bar, footer, and page chrome.
+   - Supplements Bootstrap variables with consistent theming.
+
+   This file is automatically linked in the _Layout.cshtml head.
+   ========================================================== */
+
+
+/* ----------------------------------------------------------
+   NAVBAR BRAND
+   Ensures the site logo or brand text scales properly,
+   remains centered, and wraps gracefully on small screens.
+   ---------------------------------------------------------- */
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+
+/* ----------------------------------------------------------
+   GLOBAL LINK COLOR
+   Defines the default hyperlink color for consistency
+   across the layout (navbar, footer, body content).
+   ---------------------------------------------------------- */
+a {
+  color: #0077cc;
+}
+
+
+/* ----------------------------------------------------------
+   PRIMARY BUTTON STYLE
+   Overrides Bootstrap’s primary color scheme
+   for uniformity across navigation and forms.
+   ---------------------------------------------------------- */
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+
+/* ----------------------------------------------------------
+   ACTIVE NAV PILLS
+   Visual state for active navigation items
+   (if using Bootstrap nav-pills pattern).
+   ---------------------------------------------------------- */
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+
+/* ----------------------------------------------------------
+   BORDER UTILITIES
+   Used by layout containers for section separation.
+   ---------------------------------------------------------- */
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+
+/* ----------------------------------------------------------
+   BOX SHADOW UTILITY
+   Adds subtle elevation to navbar and content wrappers.
+   ---------------------------------------------------------- */
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+
+/* ----------------------------------------------------------
+   ACCEPT POLICY BUTTON
+   (Optional element in footer or privacy banner)
+   ---------------------------------------------------------- */
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+
+/* ----------------------------------------------------------
+   FOOTER LAYOUT
+   Keeps footer at the bottom, ensures full width and
+   adequate line height for consistent vertical spacing.
+   ---------------------------------------------------------- */
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  line-height: 60px;
+}

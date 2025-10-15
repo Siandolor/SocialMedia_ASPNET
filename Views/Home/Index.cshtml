@@ -1,0 +1,173 @@
+@using SocialMedia.ViewModels
+@model IEnumerable<ChirpViewModel>
+
+@{
+    // ----------------------------------------------------------
+    //  VIEW CONFIGURATION
+    //  Sets page title and extracts additional context variables
+    //  from ViewBag and TempData:
+    //  • TrendingPeeps    → sidebar list of top Peeps (last 24h)
+    //  • IsAuthenticated  → indicates if a user is logged in
+    //  • Error            → temporary error message (if any)
+    // ----------------------------------------------------------
+    ViewData["Title"] = "Home";
+    var trending = ViewBag.TrendingPeeps as IEnumerable<dynamic>;
+    bool isAuthenticated = ViewBag.IsAuthenticated ?? false;
+    string? error = TempData["Error"] as string;
+}
+
+<!-- ==========================================================
+     ERROR MESSAGE DISPLAY
+     Displays a temporary message if chirp validation failed.
+     ---------------------------------------------------------- -->
+@if (!string.IsNullOrEmpty(error))
+{
+    <div class="error">@error</div>
+}
+
+<!-- ==========================================================
+     CHIRP CREATION FORM
+     Displayed only if user is authenticated.
+     Allows posting a new chirp (max. 123 characters).
+     Posts to HomeController.CreateChirp (POST).
+     ---------------------------------------------------------- -->
+@if (isAuthenticated)
+{
+    <h1>Create a new Chirp:</h1>
+
+    <form asp-controller="Home" asp-action="CreateChirp" method="post" asp-antiforgery="true" class="chirp-form">
+        <textarea id="chirpContent" name="content" maxlength="123" placeholder="What's new?" required></textarea>
+        <div class="d-flex justify-content-between">
+            <small id="chirpCounter" class="form-text align-content-center px-3 border-0 rounded-2"></small>
+            <button type="submit" class="btn btn-sm btn-outline-primary">Chirp</button>
+        </div>
+    </form>
+}
+else
+{
+    <p>
+        Please <a asp-controller="Account" asp-action="Login">log in</a> to post a chirp.
+    </p>
+}
+
+<!-- ==========================================================
+     MAIN FEED LAYOUT
+     Two-column structure:
+     • Left  → newest chirps (feed)
+     • Right → trending Peeps (sidebar)
+     ---------------------------------------------------------- -->
+<div class="row mt-5">
+
+    <!-- LEFT COLUMN: FEED -->
+    <div class="col-md-8 mt-0">
+        <h2>Latest Chirps</h2>
+        <section class="chirp-list mt-2">
+
+            <!-- Iterates through ChirpViewModels passed from controller -->
+            @foreach (var chirp in Model)
+            {
+                <article class="chirp mb-3 p-3 border rounded bg-white">
+                    <header class="d-flex justify-content-between">
+                        <strong>
+                            <!-- Profile link to user -->
+                            <a asp-controller="Profile" asp-action="Index" asp-route-username="@chirp.UserName">
+                                @chirp.UserName
+                            </a>
+                        </strong>
+                        <span class="timestamp">
+                            @chirp.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                        </span>
+                    </header>
+
+                    <!-- Chirp content -->
+                    <p class="content">@chirp.Content</p>
+
+                    <!-- Linked Peeps -->
+                    <div class="peeps">
+                        @foreach (var peep in chirp.Peeps)
+                        {
+                            <a class="peep" asp-controller="Peeps" asp-action="Index" asp-route-name="@peep">
+                                @($"<" + peep)
+                            </a>
+                        }
+                    </div>
+
+                    <!-- Likes section -->
+                    <div class="likes mt-2">
+                        <form asp-controller="Home" asp-action="ToggleLike" method="post" asp-antiforgery="true" class="like-form d-inline">
+                            <input type="hidden" name="id" value="@chirp.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                @((chirp.LikedByCurrentUser ? "Unlike" : "Like"))
+                            </button>
+                        </form>
+                        <span>(@chirp.LikeCount)</span>
+                    </div>
+                </article>
+            }
+        </section>
+    </div>
+
+    <!-- RIGHT COLUMN: TRENDING PEEPS -->
+    <div class="col-md-4 mt-0">
+        <h2>Top Peeps (24h)</h2>
+        <aside class="trending mb-3 p-3 border rounded bg-white mt-2">
+            <ul class="list-unstyled mb-0">
+                @if (trending != null)
+                {
+                    foreach (var item in trending)
+                    {
+                        <li>
+                            <a asp-controller="Peeps" asp-action="Index" asp-route-name="@item.Name">
+                                @($"<" + item.Name)
+                            </a>
+                            <span> (@item.Count)</span>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>No Peeps available.</li>
+                }
+            </ul>
+        </aside>
+    </div>
+</div>
+
+<!-- ==========================================================
+     CHARACTER COUNTER SCRIPT
+     Dynamically updates character counter while typing.
+     Color-coded feedback (green → yellow → red) based on
+     remaining characters.
+     ---------------------------------------------------------- -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const input = document.getElementById("chirpContent");
+        const counter = document.getElementById("chirpCounter");
+        if (!input || !counter) return;
+
+        const max = parseInt(input.getAttribute("maxlength"));
+
+        function updateCounter() {
+            const used = input.value.length;
+            const remaining = max - used;
+            const percentRemaining = remaining / max;
+
+            counter.textContent = used + " / " + max + " characters";
+
+            counter.classList.remove("bg-success-subtle", "bg-warning-subtle", "bg-danger-subtle");
+
+            if (remaining <= 0) {
+                counter.classList.add("bg-danger", "text-warning");
+            } else if (percentRemaining <= 0.10) {
+                counter.classList.add("bg-danger-subtle");
+            } else if (percentRemaining <= 0.20) {
+                counter.classList.add("bg-warning-subtle");
+            } else {
+                counter.classList.add("bg-success-subtle");
+            }
+        }
+
+        updateCounter();
+        input.addEventListener("input", updateCounter);
+    });
+</script>

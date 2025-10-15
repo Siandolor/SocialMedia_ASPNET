@@ -1,0 +1,97 @@
+@using SocialMedia.ViewModels
+@model RegisterViewModel
+
+@{
+    // ----------------------------------------------------------
+    //  VIEW CONFIGURATION
+    //  Sets page title for the registration form.
+    // ----------------------------------------------------------
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<!-- ==========================================================
+     REGISTRATION FORM
+     Posts form data to AccountController.Register (POST).
+     Includes antiforgery token for CSRF protection.
+     ---------------------------------------------------------- -->
+<form asp-action="Register" method="post" asp-antiforgery="true">
+
+    <!-- Validation summary for displaying model-level errors -->
+    <div asp-validation-summary="All" class="validation-summary"></div>
+
+    <!-- ------------------------------------------------------
+         EMAIL FIELD
+         Two-way binds to RegisterViewModel.Email.
+         Validates email format via data annotations.
+         ------------------------------------------------------ -->
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <!-- ------------------------------------------------------
+         USERNAME FIELD
+         Two-way binds to RegisterViewModel.UserName.
+         Accepts only alphanumeric characters (validated in model).
+         ------------------------------------------------------ -->
+    <div class="form-group">
+        <label asp-for="UserName">Username</label>
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <!-- ------------------------------------------------------
+         PASSWORD FIELD
+         Bound to RegisterViewModel.Password.
+         Uses DataType.Password for secure masked input.
+         ------------------------------------------------------ -->
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <!-- ------------------------------------------------------
+         CONFIRM PASSWORD FIELD
+         Ensures the confirmation matches the first password.
+         ------------------------------------------------------ -->
+    <div class="form-group">
+        <label asp-for="ConfirmPassword">Confirm Password</label>
+        <input asp-for="ConfirmPassword" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <!-- ------------------------------------------------------
+         DESCRIPTION FIELD
+         Optional user bio or short description (max. 300 chars).
+         Bound to RegisterViewModel.Description.
+         ------------------------------------------------------ -->
+    <div class="form-group">
+        <label asp-for="Description">Short Description</label>
+        <textarea asp-for="Description" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit">Register</button>
+</form>
+
+<!-- ----------------------------------------------------------
+     LOGIN LINK
+     Navigation back to the login page for existing users.
+     ---------------------------------------------------------- -->
+<p>
+    Already registered?
+    <a asp-controller="Account" asp-action="Login">Login</a>
+</p>
+
+<!-- ----------------------------------------------------------
+     CLIENT-SIDE VALIDATION
+     Loads jQuery validation scripts via partial view.
+     ---------------------------------------------------------- -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

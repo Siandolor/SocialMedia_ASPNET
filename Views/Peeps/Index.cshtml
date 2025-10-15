@@ -1,0 +1,60 @@
+@using SocialMedia.ViewModels
+@model IEnumerable<ChirpViewModel>
+
+@{
+    // ----------------------------------------------------------
+    //  VIEW CONFIGURATION
+    //  Retrieves the active Peep name from ViewBag and sets
+    //  the dynamic page title accordingly.
+    // ----------------------------------------------------------
+    var peepName = ViewBag.PeepName as string;
+    ViewData["Title"] = $"Peep: {peepName}";
+}
+
+<!-- ==========================================================
+     PAGE HEADER
+     Displays the selected Peep name and short description.
+     ---------------------------------------------------------- -->
+<h1>Peep &lt;@peepName&gt;</h1>
+<p>Chirps containing the Peep &lt;@peepName&gt;</p>
+
+<!-- ==========================================================
+     CHIRP LIST
+     Iterates through all ChirpViewModels associated with the
+     selected Peep. Displays author, timestamp, content, Peeps,
+     and total likes per chirp.
+     ---------------------------------------------------------- -->
+@foreach (var chirp in Model)
+{
+    <article class="chirp">
+        <!-- Author and timestamp -->
+        <header>
+            <strong>
+                <a asp-controller="Profile" asp-action="Index" asp-route-username="@chirp.UserName">
+                    @chirp.UserName
+                </a>
+            </strong>
+            <span class="timestamp">
+                @chirp.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+            </span>
+        </header>
+
+        <!-- Chirp content -->
+        <p class="content">@chirp.Content</p>
+
+        <!-- Peeps mentioned in this chirp -->
+        <div class="peeps">
+            @foreach (var peep in chirp.Peeps)
+            {
+                <a class="peep" asp-controller="Peeps" asp-action="Index" asp-route-name="@peep">
+                    @($"<" + peep)
+                </a>
+            }
+        </div>
+
+        <!-- Like count display -->
+        <div class="likes">
+            <span>@chirp.LikeCount Likes</span>
+        </div>
+    </article>
+}

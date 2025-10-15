@@ -1,0 +1,253 @@
+/* ==========================================================
+   SITE.CSS
+   Global stylesheet for the SocialMedia (Tweeble) application.
+
+   Purpose:
+   - Defines core layout and structural rules.
+   - Provides base typography, spacing, and color scheme.
+   - Styles major components: navbar, logo, chirp feed, forms.
+   - Complements _Layout.cshtml.css with page-level visuals.
+
+   Dependencies:
+   - Bootstrap 5 (used as base framework)
+   ========================================================== */
+
+
+/* ----------------------------------------------------------
+   GLOBAL PAGE STRUCTURE
+   Sets full height for flexbox layout and removes default margins.
+   Ensures footer is pushed to the bottom (flexbox column).
+   ---------------------------------------------------------- */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ----------------------------------------------------------
+   BASE BODY STYLE
+   Defines global font, colors, and background.
+   ---------------------------------------------------------- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+
+/* ==========================================================
+   NAVIGATION BAR
+   Provides consistent header appearance and link behavior.
+   ========================================================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Navbar links and brand */
+.navbar .navbar-brand,
+.navbar .nav-link,
+.navbar .btn-link.nav-link {
+    color: #000 !important;
+    text-decoration: none !important;
+    margin-right: 1rem;
+}
+
+/* Hover state for all nav items */
+.navbar .navbar-brand:hover,
+.navbar .nav-link:hover,
+.navbar .btn-link.nav-link:hover {
+    color: #000 !important;
+}
+
+/* Logout button as inline nav item */
+.navbar .nav-item button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+
+/* ==========================================================
+   MAIN CONTAINER + FOOTER BEHAVIOR
+   Ensures footer stays at the bottom and main fills the rest.
+   ========================================================== */
+main {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+
+/* ==========================================================
+   LOGO STYLING
+   Styles the circular Tweeble "<" icon and its hover behavior.
+   ========================================================== */
+.logo-icon {
+    width: 75px;
+    height: 75px;
+    font-size: 75px;
+    background: #fff;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+/* Keep glyph color consistent across link states */
+.navbar .navbar-brand.logo-icon,
+.navbar .navbar-brand.logo-icon:link,
+.navbar .navbar-brand.logo-icon:visited,
+.navbar .navbar-brand.logo-icon:hover,
+.navbar .navbar-brand.logo-icon:active {
+    color: inherit !important;
+}
+
+/* Blue "<" symbol in logo */
+.logo-glyph {
+    line-height: 1;
+    display: inline-block;
+    color: #0d6efd !important;
+}
+
+/* Hover: invert colors (white glyph, blue background) */
+.logo-icon:hover {
+    background: #0d6efd;
+    border-color: #0d6efd !important;
+}
+.logo-icon:hover .logo-glyph {
+    color: #fff !important;
+}
+
+
+/* ==========================================================
+   CONTENT LAYOUT
+   Centers the feed container and limits width for readability.
+   ========================================================== */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+
+/* ==========================================================
+   CHIRP CREATION FORM
+   Styles textarea and submit button for posting chirps.
+   ========================================================== */
+.chirp-form textarea {
+    width: 100%;
+    height: 70px;
+    margin-bottom: 0.5rem;
+}
+
+.chirp-form button {
+    padding: 0.5rem 1rem;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   CHIRP LIST + INDIVIDUAL POSTS
+   Defines card-like layout for chirps with spacing and borders.
+   ========================================================== */
+.chirp-list {
+    margin-top: 1rem;
+}
+
+.chirp {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Chirp header (author + timestamp) */
+.chirp header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Peeps inside chirp content */
+.chirp .peeps a {
+    margin-right: 0.5rem;
+    color: #007acc;
+    text-decoration: none;
+}
+
+/* Like counter spacing */
+.chirp .likes {
+    margin-top: 0.3rem;
+}
+
+
+/* ==========================================================
+   CONTENT TEXT
+   Ensures proper word wrapping and preserves line breaks.
+   ========================================================== */
+.content {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+}
+
+
+/* ==========================================================
+   TRENDING SIDEBAR
+   Visual container for top Peeps list (24h ranking).
+   ========================================================== */
+.trending {
+    margin-top: 2rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+}
+
+
+/* ==========================================================
+   VALIDATION + ERROR DISPLAY
+   Highlights validation errors and alert messages.
+   ========================================================== */
+.error {
+    color: red;
+    margin-bottom: 1rem;
+}
+
+.validation-summary {
+    color: red;
+    margin-bottom: 0.5rem;
+}
+
+
+/* ==========================================================
+   FORM ELEMENTS
+   Provides consistent spacing and label behavior.
+   ========================================================== */
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}

@@ -100,7 +100,7 @@ SocialMedia/
 
 ### Build & Run
 ```bash
-  git clone https://github.com/Siandolor/SocialMedia.git
+  git clone https://github.com/Siandolor/SocialMedia_ASPNET_MVC_EF_CSharp.git
   cd SocialMedia
   dotnet restore
   dotnet ef database update

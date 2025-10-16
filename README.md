@@ -124,16 +124,29 @@ https://localhost:5001
 
 ---
 
-## License
-Licensed under the **MIT License**.  
-(c) 2025 Daniel Fitz
-
----
-
 ## Notes
 - Designed for educational and experimental use — not production.
 - Identity & database logic are self-contained and easily extendable.
 - All controllers and models are fully documented for clarity and maintainability.
+
+---
+
+## Author
+**Daniel Fitz, MBA, MSc, BSc**  
+Vienna, Austria  
+Developer & Security Technologist — *Post-Quantum Cryptography, Blockchain/Digital Ledger & Simulation*  
+C/C++ · C# · Java · Python · Visual Basic · ABAP · JavaScript/TypeScript
+
+International Accounting · Macroeconomics & International Relations · Physiotherapy · Computer Sciences  
+Former Officer of the German Federal Armed Forces
+
+---
+
+## License
+**MIT License** — free for educational and research use.  
+Attribution required for redistribution or commercial adaptation.
+
+---
 
 > “Tweeble – minimal social noise, maximum signal.”  
 > — Daniel Fitz, 2025
